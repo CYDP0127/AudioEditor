@@ -35,12 +35,12 @@
             width:80%;
         }
         #waveform{
-            position:absolute;
+            position:relative;
             background-image: url("tile.png");
             background-size:0.93rem;
             background-repeat: repeat-x;
             width:100%;
-            height:20%;
+            height:16%;
             z-index: 10;
         }
         #seconds{
@@ -49,9 +49,10 @@
             float:left;
         }
         #bar{
+            top:0px;
             z-index: 1000;
             position:absolute;
-            left:1rem;
+            left:0rem;
             border-style:solid;
             border-width: 1px;
             height:100%;
@@ -60,10 +61,26 @@
     </style>
     <script>
 
+        var timeout;
+        var _increase;
         function bar(tmp){
-            tmp = parseInt(tmp) + 1;
-            $("#bar").css("left", tmp/100+"rem");
-            setTimeout("bar('"+tmp+"')", 10);
+            if(document.getElementById("button").value == "start") {
+                document.getElementById("button").value = "stop";
+                if(_increase == null){
+                    barProcess(tmp);
+                }else{
+                    barProcess(_increase);
+                }
+            }else{
+                document.getElementById("button").value = "start";
+                clearTimeout(timeout);
+            }
+        }
+
+        function barProcess(increase){
+            _increase = parseInt(increase) + 1;
+            $("#bar").css("left", _increase/100+"rem");
+            timeout = setTimeout("barProcess('"+_increase+"')", 10);
         }
 
         function test(){
@@ -98,6 +115,13 @@
              }
              });*/
         });
+
+        function reset(){
+            _increase = null;
+            $("#bar").css("left", "0");
+            document.getElementById("button").value = "start";
+            clearTimeout(timeout);
+        }
     </script>
 </head>
 <body>
@@ -114,8 +138,11 @@
     <a style="margin-left:5rem">4:00</a>
 </div>
 </br>
-<input type="button" value="start" onclick="bar(0)">
+<input type="button" value="start" id="button" onclick="bar(0)">
+<input type="button" value="reset" id="reset-button" onclick="reset()">
 <div id="flat">
+    <div id="waveform">
+    </div>
     <div id="waveform">
     </div>
     <div id="waveform">
