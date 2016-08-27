@@ -8,21 +8,6 @@
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <style>
 
-        #draggable-5 {
-            opacity:0.5;
-            z-index: 10;
-            width: 100px; height: 50px; padding: 0.5em; float: left;
-            margin: 22px 5px 10px 0;
-        }/*
-        .droppable-8 {
-            width: 1px; height: 1000px;padding: 0.5em; float: left;
-            margin: 10px;
-        }*/
-        .droppable-8 {
-            width: 2px; height: 1000px;float: left;
-
-        }
-
         #flat{
             z-index:-1;
             position:relative;
@@ -58,6 +43,32 @@
             height:100%;
             width:0px;
         }
+        .playlist{
+            position:relative;
+            float:right;
+            height:1000px;
+            width:330px;
+            background-color: aquamarine;
+            padding-top:50px;
+        }
+
+        .raw-audio{
+            position:relative;
+            height:100px;
+            width:300px;
+            background-color: dimgray;
+            margin-bottom:10px;
+
+            opacity: 0.8;
+            z-index: 10;
+            padding: 0.5em;
+            float: left;
+
+            background-image: url("waves/waveform1.png");
+
+        }
+
+
     </style>
     <script>
 
@@ -84,17 +95,17 @@
         }
 
         function test(){
-
+/*
             var p = $("#draggable-5");
             var position = p.position();
-
             var d = $("#flat");
             var dposition = d.offset();
 
             var left = position.left - dposition.left;
 
+
             $("#left").text("left : "+ position.left);
-            $("#left-div").text("left - div : "+ left);
+            $("#left-div").text("top : "+ position.top);*/
         }
         $(function() {
             /*for(var i =0;i<3000;i++){
@@ -102,6 +113,13 @@
              '<div class="droppable-8 ui-widget-header"> <p></p></div>');
              };*/
 
+            $("#draggable-1").draggable ({
+                axis : "x"
+            });
+
+            $( "#draggable-2" ).draggable();
+            $( "#draggable-3" ).draggable();
+            $( "#draggable-4" ).draggable();
             $( "#draggable-5" ).draggable();
 
 
@@ -125,6 +143,20 @@
     </script>
 </head>
 <body>
+
+<div class="playlist">
+    <div id="draggable-1" class="raw-audio">
+
+    </div>
+    <div id="draggable-2" class="raw-audio">
+
+    </div>
+    <div id="draggable-3" class="raw-audio">
+
+    </div>
+    <div id="draggable-4" class="raw-audio">
+    </div>
+</div>
 
 
 
@@ -157,18 +189,11 @@
     <p id="left-div"></p>
 </div>
 
-
-
-<div id="draggable-5" class="ui-widget-content" onmouseup="test(0);">
-    <p>Guitar_1</p>
+<!-- Draggable with coordinates -->
+<div id="draggable-5" class="raw-audio" onmouseup="test();">
+    sadasd
 </div>
-<!--
-<div class="droppable-8">
-    <p>Drop here</p>
-</div>
-<div class="droppable-8">
-    <p>Drop here</p>
-</div>-->
+
 
 </body>
 </html>
