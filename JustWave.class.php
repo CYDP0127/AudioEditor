@@ -382,6 +382,8 @@ class JustWave
 		for($i = 0, $c = count($out); $i < $c; $i++)
 			if(preg_match('/Duration: (\d\d):(\d\d):(\d\d)\.(\d+),/', $out[$i], $m)) {
 				$this->duration = $m[1] * 3600 + $m[2] * 60 + $m[3] . '.' . $m[4];
+                //16px for one second.
+                $this->width = $this->duration * 16;
 				break;
 			}
 

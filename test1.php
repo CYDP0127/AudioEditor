@@ -21,7 +21,6 @@
         }
 
         #flat{
-            z-index:-1;
             position:relative;
             padding:0;
             margin:0;
@@ -36,7 +35,7 @@
         #tile{
             position:relative;
             background-image: url("tile.png");
-            background-size:0.93rem;
+            background-size:16px;
             background-repeat: repeat-x;
             width:100%;
             height:125px;
@@ -77,6 +76,7 @@
 
 
         #buttons{
+            z-index: 1;
             position:absolute;
             bottom:0;
             width:100%;
@@ -92,20 +92,36 @@
 
         .raw-audio {
             position: relative;
-            height: 100px;
-            width: 1200px;
+            background-image: url("waves/waveform1.png");
+            background-repeat:no-repeat;
+            background-position:center;
+            width:2844px;
+            height:100px;
             background-color: #BA55D3;
             margin-top: 5px;
             margin-bottom: 9px;
             opacity: 0.9;
             z-index: 10;
-            padding: 0.5em;
-            background-image: url("waves/waveform1.png");
+            left:100px;
         }
+
+        .raw-audio2 {
+             position: absolute;
+             background-image: url("waves/waveform2.png");
+             background-repeat:no-repeat;
+             background-position:center;
+             width:507px;
+             height:100px;
+             background-color: #BA55D3;
+             margin-top: 5px;
+             margin-bottom: 9px;
+             opacity: 0.9;
+             z-index: 10;
+         }
 
     </style>
     <script>
-
+        var RemToPx = 16;
         var timeout;
         var _increase;
         function bar(tmp){
@@ -122,11 +138,12 @@
             }
         }
 
-        function barProcess(increase){
-            _increase = parseInt(increase) + 1;
-            $("#bar").css("left", _increase/100+"rem");
-            timeout = setTimeout("barProcess('"+_increase+"')", 10);
+        function barProcess(increase) {
+            _increase = parseInt(increase) + RemToPx;
+            $("#bar").css("left", _increase / 10 + "px");
+            timeout = setTimeout("barProcess('" + _increase + "')", 100);
         }
+
         function test(){
 /*
             var p = $("#draggable-5");
@@ -200,15 +217,19 @@
              });*/
 
             var audioElement = document.createElement('audio');
-            audioElement.setAttribute('src', 'song2.mp3');
+            audioElement.setAttribute('src', 'song1.mp3');
 
-
-/*
-           // EVENT LISTENER FOR AUDIO
-            audioElement.addEventListener("load", function() {
-                audioElement.play();
-            }, true);
+          /*  var audioElement2 = document.createElement('audio');
+            audioElement2.setAttribute('src', 'song2.mp3');
 */
+
+
+            /*
+                       // EVENT LISTENER FOR AUDIO
+                        audioElement.addEventListener("load", function() {
+                            audioElement.play();
+                        }, true);
+            */
 
             window.setInterval(function() {
                 if(collision($('#bar'), $('#draggable-1'))){
@@ -216,6 +237,13 @@
                 }
             }, 10);
 
+
+  /*          window.setInterval(function() {
+                if(collision($('#bar'), $('#draggable-2'))){
+                    audioElement2.play();
+                }
+            }, 10);
+*/
             /*
                 $('.play').click(function() {
                     audioElement.play();
@@ -245,19 +273,8 @@
 </div>
 
 <div class="playlist">
-    <div id="draggable-1" class="raw-audio">
 
-    </div>
-    <div id="draggable-2" class="raw-audio">
-
-    </div>
-    <div id="draggable-3" class="raw-audio">
-
-    </div>
-    <div id="draggable-4" class="raw-audio">
-    </div>
 </div>
-
 
 <!--
 <div id="seconds">
@@ -280,12 +297,25 @@
 
 <div id="flat">
     <div id="tile">
+        <div id="draggable-1" class="raw-audio">
+
+        </div>
+    </div>
+
+    <div id="tile">
+        <div id="draggable-2" class="raw-audio">
+
+        </div>
     </div>
     <div id="tile">
+        <div id="draggable-3" class="raw-audio">
+
+        </div>
     </div>
     <div id="tile">
-    </div>
-    <div id="tile">
+        <div id="draggable-4" class="raw-audio">
+
+        </div>
     </div>
 
     <div id="bar">
