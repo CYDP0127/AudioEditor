@@ -7,67 +7,101 @@
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <style>
+        body, html{
+            margin:0;
+            padding:0;
+        }
+
+        #logo img{
+            position:relative;
+            float:left;
+            height:55px;
+            margin-left:50px;
+            margin-top:7px;
+        }
 
         #flat{
             z-index:-1;
             position:relative;
             padding:0;
-            background-color: antiquewhite;
+            margin:0;
+            background-color: rgb(230,233,235);
             border-style:solid;
             border-width: 1px;
-            margin: 1rem 1rem 1rem 1rem;
             height:50rem;
-            width:80%;
+            width:3000px;
+            left: 301px;
+            top:53px;
         }
-        #waveform{
+        #tile{
             position:relative;
             background-image: url("tile.png");
             background-size:0.93rem;
             background-repeat: repeat-x;
             width:100%;
-            height:16%;
+            height:125px;
             z-index: 10;
         }
+
         #seconds{
-            margin: 0;
-            padding: 0;
             float:left;
         }
+
         #bar{
-            top:0px;
-            z-index: 1000;
             position:absolute;
-            left:0rem;
+            top:0;
+            left:0;
+            z-index: 1000;
             border-style:solid;
             border-width: 1px;
             height:100%;
-            width:0px;
+            width:0;
+            background: black;
         }
         .playlist{
             position:relative;
             float:right;
             height:1000px;
             width:330px;
-            background-color: aquamarine;
-            padding-top:50px;
+            top:70px;
         }
 
-        .raw-audio{
-            position:relative;
-            height:100px;
+        .options{
+            position:absolute;
+            float:left;
+            height:1000px;
             width:300px;
-            background-color: dimgray;
-            margin-bottom:10px;
+            top:70px;
+            background:rgb(232,235,237);
+        }
 
-            opacity: 0.8;
+
+        #buttons{
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height:100px;
+            background: whitesmoke;
+        }
+
+        #buttons #buttons-align{
+            vertical-align:center;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        .raw-audio {
+            position: relative;
+            height: 100px;
+            width: 1200px;
+            background-color: #BA55D3;
+            margin-top: 5px;
+            margin-bottom: 9px;
+            opacity: 0.9;
             z-index: 10;
             padding: 0.5em;
-            float: left;
-
             background-image: url("waves/waveform1.png");
-
         }
-
 
     </style>
     <script>
@@ -93,7 +127,6 @@
             $("#bar").css("left", _increase/100+"rem");
             timeout = setTimeout("barProcess('"+_increase+"')", 10);
         }
-
         function test(){
 /*
             var p = $("#draggable-5");
@@ -107,6 +140,32 @@
             $("#left").text("left : "+ position.left);
             $("#left-div").text("top : "+ position.top);*/
         }
+        function reset(){
+            _increase = null;
+            $("#bar").css("left", "0");
+            document.getElementById("button").value = "start";
+            clearTimeout(timeout);
+        }
+
+        function collision($div1, $div2) {
+            var x1 = $div1.offset().left;
+            var y1 = $div1.offset().top;
+            var h1 = $div1.outerHeight(true);
+            var w1 = $div1.outerWidth(true);
+            var b1 = y1 + h1;
+            var r1 = x1 + w1;
+            var x2 = $div2.offset().left;
+            var y2 = $div2.offset().top;
+            var h2 = $div2.outerHeight(true);
+            var w2 = $div2.outerWidth(true);
+            var b2 = y2 + h2;
+            var r2 = x2 + w2;
+
+            if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+            return true;
+        }
+
+
         $(function() {
             /*for(var i =0;i<3000;i++){
              $("#flat").append(
@@ -115,13 +174,20 @@
 
             $("#draggable-1").draggable ({
                 axis : "x"
+
             });
 
-            $( "#draggable-2" ).draggable();
-            $( "#draggable-3" ).draggable();
-            $( "#draggable-4" ).draggable();
-            $( "#draggable-5" ).draggable();
+            $("#draggable-2").draggable ({
+                axis : "x"
+            });
 
+            $("#draggable-3").draggable ({
+                axis : "x"
+            });
+
+            $("#draggable-4").draggable ({
+                axis : "x"
+            });
 
             /*$( ".droppable-8" ).droppable({/!*
              tolerance: 'touch',*!/
@@ -132,17 +198,51 @@
              .html( "Dropped with a touch!" );
              }
              });*/
+
+            var audioElement = document.createElement('audio');
+            audioElement.setAttribute('src', 'song2.mp3');
+
+
+/*
+           // EVENT LISTENER FOR AUDIO
+            audioElement.addEventListener("load", function() {
+                audioElement.play();
+            }, true);
+*/
+
+            window.setInterval(function() {
+                if(collision($('#bar'), $('#draggable-1'))){
+                    audioElement.play();
+                }
+            }, 10);
+
+            /*
+                $('.play').click(function() {
+                    audioElement.play();
+                });
+
+                $('.pause').click(function() {
+                    audioElement.pause();
+                });*/
+
         });
 
-        function reset(){
-            _increase = null;
-            $("#bar").css("left", "0");
-            document.getElementById("button").value = "start";
-            clearTimeout(timeout);
-        }
+
+
+
+
     </script>
 </head>
 <body>
+<div id="logo">
+<img src="logo.png">
+</div>
+<div class="options">
+
+    <div>
+        <p>Colliding? <span id="result">false</span>
+    </div>
+</div>
 
 <div class="playlist">
     <div id="draggable-1" class="raw-audio">
@@ -159,7 +259,7 @@
 </div>
 
 
-
+<!--
 <div id="seconds">
     <a style="margin-left:2rem">1</a>
     <a style="margin-left:1rem">2</a>
@@ -168,19 +268,26 @@
     <a style="margin-left:5rem">3:00</a>
     <a style="margin-left:5rem">3:30</a>
     <a style="margin-left:5rem">4:00</a>
-</div>
+</div>-->
 </br>
-<input type="button" value="start" id="button" onclick="bar(0)">
-<input type="button" value="reset" id="reset-button" onclick="reset()">
+
+<div id="buttons">
+    <div id="buttons-align">
+        <input type="button" value="start" id="button" onclick="bar(0)">
+        <input type="button" value="reset" id="reset-button" onclick="reset()">
+    </div>
+</div>
+
 <div id="flat">
-    <div id="waveform">
+    <div id="tile">
     </div>
-    <div id="waveform">
+    <div id="tile">
     </div>
-    <div id="waveform">
+    <div id="tile">
     </div>
-    <div id="waveform">
+    <div id="tile">
     </div>
+
     <div id="bar">
     </div>
 </div>
@@ -189,11 +296,11 @@
     <p id="left-div"></p>
 </div>
 
-<!-- Draggable with coordinates -->
-<div id="draggable-5" class="raw-audio" onmouseup="test();">
-    sadasd
-</div>
 
+<!-- Draggable with coordinates -->
+<!--<div id="draggable-5" class="raw-audio" onmouseup="test();">
+    sadasd
+</div>-->
 
 </body>
 </html>

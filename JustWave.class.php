@@ -29,7 +29,7 @@ class JustWave
 	private $height = 100;
 
 	/** @var string Color of main wave */
-	private $waveColor = '#909296';
+	private $waveColor = '#333333';
 	/** @var string Color of progress wave */
 	private $progressColor = '#FF530D';
 	/** @var string Color of background, empty string - transparent */
